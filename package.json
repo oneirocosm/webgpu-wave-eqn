@@ -1,0 +1,26 @@
+{
+  "name": "webgpu04-hello-triangle",
+  "version": "0.0.1",
+  "description": "Basically, the hello world for webgpu",
+  "main": "index.js",
+  "scripts": {
+    "start": "pnpm run build && pnpm run serve",
+    "serve": "live-server --cors",
+    "build": "webpack --config webpack.config.js"
+  },
+  "keywords": [],
+  "author": "oneirocosm",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "@webgpu/types": "^0.1.24",
+    "gl-matrix": "^3.4.3",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "ts-loader": "^9.4.2",
+    "ts-shader-loader": "^2.0.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  }
+}
