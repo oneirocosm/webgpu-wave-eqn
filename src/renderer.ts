@@ -1,4 +1,6 @@
 import shader from "./shaders/shaders.wgsl";
+import { Material } from "./material";
+import { QuadMesh } from "./quad-mesh";
 
 export class Renderer {
     canvas: HTMLCanvasElement;
@@ -13,10 +15,13 @@ export class Renderer {
     pipeline: GPURenderPipeline;
     bindGroupLayout: GPUBindGroupLayout;
     bindGroup: GPUBindGroup;
+    materialGroupLayout: GPUBindGroupLayout;
 
     //assets
-    frameBuffer: GPUBuffer;
-    bufferLayout: GPUVertexBufferLayout;
+    backgroundMaterial: Material;
+    backgroundMesh: QuadMesh;
+    energyBuffer: GPUBuffer;
+    dimBuffer: GPUBuffer;
 
     constructor(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -44,58 +49,51 @@ export class Renderer {
 
     async makeBindGroupLayouts() {
         this.bindGroupLayout = this.device.createBindGroupLayout({
-            entries: [],
+            entries: [
                 /*
                 {
                     binding: 0,
-                    visibility: GPUShaderStage.VERTEX,
-                    buffer: {},
+                    visibility: GPUShaderStage.FRAGMENT,
+                    buffer: {
+                        type: "storage",
+                        hasDynamicOffset: false,
+                    },
                 },
                 {
                     binding: 1,
-                    visibility: GPUShaderStage.VERTEX,
-                    buffer: {},
+                    visibility: GPUShaderStage.FRAGMENT,
+                    buffer: {
+                        type: "uniform",
+                        hasDynamicOffset: false,
+                    },
                 },
-            ]*/
+                */
+            ]
+        });
+
+        this.materialGroupLayout = this.device.createBindGroupLayout({
+            entries: [
+                /*
+                {
+                    binding: 0,
+                    visibility: GPUShaderStage.FRAGMENT,
+                    texture: {},
+                },
+                {
+                    binding: 1,
+                    visibility: GPUShaderStage.FRAGMENT,
+                    sampler: {},
+                },
+                */
+            ]
         });
     }
 
     async createAssets() {
-        const frameData = new Float32Array([
-            -1.0, -1.0, 0.0, 0.0,
-            1.0, -1.0, 1.0, 0.0,
-            1.0, 1.0, 1.0, 1.0,
+        this.backgroundMesh = new QuadMesh(this.device);
 
-            -1.0, -1.0, 0.0, 0.0,
-            1.0, 1.0, 1.0, 1.0,
-            -1.0, 1.0, 0.0, 1.0,
-        ]);
-
-        const descriptor: GPUBufferDescriptor = {
-            size: frameData.byteLength,
-            usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
-            mappedAtCreation: true,
-        };
-
-        this.frameBuffer = this.device.createBuffer(descriptor);
-        new Float32Array(this.frameBuffer.getMappedRange()).set(frameData);
-        this.frameBuffer.unmap();
-
-        this.bufferLayout = {
-            arrayStride: 16,
-            attributes: [
-                {
-                    shaderLocation: 0,
-                    format: "float32x2",
-                    offset: 0,
-                },
-                {
-                    shaderLocation: 1,
-                    format: "float32x2",
-                    offset: 8,
-                },
-            ],
-        };
+        //this.backgroundMaterial = new Material();
+        //await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg", this.materialGroupLayout);
     }
 
     async makePipeline() {
@@ -109,7 +107,7 @@ export class Renderer {
                     code: shader,
                 }),
                 entryPoint: "vs_main",
-                buffers: [this.bufferLayout],
+                buffers: [this.backgroundMesh.bufferLayout],
             },
             fragment: {
                 module: this.device.createShaderModule({
@@ -130,21 +128,22 @@ export class Renderer {
     async makeBindGroup() {
         this.bindGroup = this.device.createBindGroup({
             layout: this.bindGroupLayout,
-            entries: [],
+            entries: [
                 /*
                 {
                     binding: 0,
                     resource: {
-                        buffer: this.frameBuffer,
+                        buffer: this.coordBuffer,
                     }
                 },
                 {
-                    binding: 0,
+                    binding: 1,
                     resource: {
-                        buffer: this.frameBuffer,
+                        buffer: this.coordBuffer,
                     }
                 },
-            ],*/
+                */
+            ],
         })
 
     }
@@ -161,7 +160,7 @@ export class Renderer {
             }]
         });
         renderpass.setPipeline(this.pipeline);
-        renderpass.setVertexBuffer(0, this.frameBuffer);
+        renderpass.setVertexBuffer(0, this.backgroundMesh.buffer);
         renderpass.draw(6);
         renderpass.end();
 
