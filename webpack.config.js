@@ -25,6 +25,13 @@ module.exports = {
         ]
     },
     resolve: {
-        extensions: [".ts"]
-    }
+        extensions: [".ts", ".js", ".jsx", ".tsx"]
+    },
+    target: "web",
+    mode: "development",
+    devServer: {
+        static: {
+            directory: path.join(__dirname, '/')
+        }
+    },
 }
