@@ -73,7 +73,6 @@ export class Renderer {
 
         this.materialGroupLayout = this.device.createBindGroupLayout({
             entries: [
-                /*
                 {
                     binding: 0,
                     visibility: GPUShaderStage.FRAGMENT,
@@ -84,7 +83,6 @@ export class Renderer {
                     visibility: GPUShaderStage.FRAGMENT,
                     sampler: {},
                 },
-                */
             ]
         });
     }
@@ -92,13 +90,13 @@ export class Renderer {
     async createAssets() {
         this.backgroundMesh = new QuadMesh(this.device);
 
-        //this.backgroundMaterial = new Material();
-        //await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg", this.materialGroupLayout);
+        this.backgroundMaterial = new Material();
+        await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg", this.materialGroupLayout);
     }
 
     async makePipeline() {
         const pipelineLayout = this.device.createPipelineLayout({
-            bindGroupLayouts: [],
+            bindGroupLayouts: [this.materialGroupLayout],
         });
 
         this.pipeline = this.device.createRenderPipeline({
@@ -161,6 +159,7 @@ export class Renderer {
         });
         renderpass.setPipeline(this.pipeline);
         renderpass.setVertexBuffer(0, this.backgroundMesh.buffer);
+        renderpass.setBindGroup(0, this.backgroundMaterial.bindGroup);
         renderpass.draw(6);
         renderpass.end();
 
