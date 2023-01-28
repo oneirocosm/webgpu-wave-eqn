@@ -2,9 +2,8 @@ export class Material {
     texture: GPUTexture;
     view: GPUTextureView;
     sampler: GPUSampler;
-    bindGroup: GPUBindGroup;
 
-    async initialize(device: GPUDevice, url: string, bindGroupLayout: GPUBindGroupLayout) {
+    async initialize(device: GPUDevice, url: string) {
         const response: Response = await fetch(url);
         const blob: Blob = await response.blob();
         const imageData: ImageBitmap = await createImageBitmap(blob);
@@ -31,8 +30,10 @@ export class Material {
             maxAnisotropy: 1,
         };
         this.sampler = device.createSampler(samplerDescriptor);
+    }
 
-        this.bindGroup = device.createBindGroup({
+    createBindGroup(device: GPUDevice, bindGroupLayout: GPUBindGroupLayout): GPUBindGroup {
+        return device.createBindGroup({
             layout: bindGroupLayout,
             entries: [
                 {
@@ -45,6 +46,7 @@ export class Material {
                 },
             ]
         });
+
     }
 
     async loadImageBitmap(device: GPUDevice, imageData: ImageBitmap) {
