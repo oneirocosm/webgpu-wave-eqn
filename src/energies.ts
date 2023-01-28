@@ -50,7 +50,7 @@ export class Energies {
 
     updateClicks(readyForEntry: Array<[number, number]>) {
         let unit = new Float32Array(Float32Array.BYTES_PER_ELEMENT);
-        unit.set([10.0], 0);
+        unit.set([0.4], 0);
         readyForEntry.forEach((point) => {
             let index = point[1] * this.canvasSize[0] + point[0];
             console.log(`writing to index ${index} out of ${this.canvasSize}`);
@@ -66,7 +66,6 @@ export class Energies {
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
         );
         */
-        /*
         commandEncoder.copyBufferToBuffer(
             this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             this.outStageBuffer, 0,
@@ -77,10 +76,9 @@ export class Energies {
             this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT * 2,
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
         );
-        */
         commandEncoder.copyBufferToBuffer(
             this.outBuffer, 0,
-            this.inBuffer, 0, //this.frameSize * Float32Array.BYTES_PER_ELEMENT,
+            this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
         );
 
