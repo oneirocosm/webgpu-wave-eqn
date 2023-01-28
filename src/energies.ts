@@ -9,6 +9,7 @@ export class Energies {
     frameSize: number;
     oldCycle: ArrayBuffer;
     tempBuffer: GPUBuffer;
+    emptyBuffer: GPUBuffer;
 
     constructor(device: GPUDevice, canvasSize: [number, number]) {
         this.device = device;
@@ -34,6 +35,10 @@ export class Energies {
             size: this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
         });
+        this.emptyBuffer = device.createBuffer({
+            size: this.frameSize * Float32Array.BYTES_PER_ELEMENT,
+            usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
+        });
         this.tempBuffer = device.createBuffer({
             size: Float32Array.BYTES_PER_ELEMENT,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
@@ -50,7 +55,7 @@ export class Energies {
 
     updateClicks(readyForEntry: Array<[number, number]>) {
         let unit = new Float32Array(Float32Array.BYTES_PER_ELEMENT);
-        unit.set([0.4], 0);
+        unit.set([4.0], 0);
         readyForEntry.forEach((point) => {
             let index = point[1] * this.canvasSize[0] + point[0];
             console.log(`writing to index ${index} out of ${this.canvasSize}`);
@@ -77,6 +82,11 @@ export class Energies {
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
         );
         commandEncoder.copyBufferToBuffer(
+            this.emptyBuffer, 0,
+            this.inBuffer, 0,
+            this.frameSize * Float32Array.BYTES_PER_ELEMENT,
+        );
+        commandEncoder.copyBufferToBuffer(
             this.outBuffer, 0,
             this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
@@ -96,8 +106,10 @@ export class Energies {
         // set this cycle to be prev cycle
         this.device.queue.writeBuffer(this.inBuffer, this.frameSize, this.oldCycle);
 
+        /*
         let unit = new Float32Array(1);
         unit.set([0.2], 0);
+        */
         //this.device.queue.writeBuffer(this.tempBuffer, 0, unit);
     }
 }

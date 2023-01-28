@@ -42,7 +42,7 @@ fn fs_main(@location(0) uv: vec2<f32>,
         let energy_top = get_energy(pos.xy, 1, 0, -1);
         let energy_bottom = get_energy(pos.xy, 1, 0, 1);
         let energy_old = get_energy(pos.xy, 2, 0, 0);
-        new_energy = (-4.0 * energy_here + energy_left + energy_right + energy_top + energy_bottom) * 0.3 * 0.3
+        new_energy = (-4.0 * energy_here + energy_left + energy_right + energy_top + energy_bottom) * 0.7 * 0.7
          + 2.0 * energy_here - energy_old;
         
         let energy_click = get_energy(pos.xy, 0, 0, 0);
@@ -54,7 +54,8 @@ fn fs_main(@location(0) uv: vec2<f32>,
         //    new_energy += energy_click;
         //}
         //new_energy = 0.0;
-        out_color = vec4<f32>(new_energy, 0.0, new_energy, 1.0);
+        let color_scaling = new_energy/2.0 + 0.5;
+        out_color = vec4<f32>(color_scaling, 0.0, color_scaling, 1.0);
 
         //out_color = vec4<f32>(1.0, 0.0 , 1.0, new_energy) * energy_click;
     }
@@ -99,9 +100,6 @@ fn get_energy(position: vec2<f32>, time_offset: i32, x_offset: i32, y_offset: i3
     let time_width = 800 * 800;
     let width = 800;
     let searchPos = vec2<i32>(position) + vec2<i32>(x_offset, y_offset);
-    if (0 > searchPos.y) {
-        return 1.0;
-    }
     if (0 > searchPos.x || searchPos.x >= 800 || 0 > searchPos.y || searchPos.y >= 800 || time_offset > 2 || time_offset < 0) {
         return 0.0;
     }
