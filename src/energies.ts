@@ -20,6 +20,8 @@ export class Energies {
             usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
         };
         this.inBuffer = device.createBuffer(descriptor);
+
+        // maybe a click buffer makes sense?  Much to think about.
         /*
         this.clickBuffer = device.createBuffer({
             size: this.numClicks * 2 * Uint32Array.BYTES_PER_ELEMENT,
@@ -49,8 +51,6 @@ export class Energies {
         let unit = new Float32Array(1);
         unit.set([0.9], 0);
         this.device.queue.writeBuffer(this.tempBuffer, 0, unit);
-        //const current: Float32Array = new Float32Array(this.frameSize * 2);
-        //this.device.queue.writeBuffer(this.inBuffer, 0, current);
     }
 
     updateClicks(readyForEntry: Array<[number, number]>) {
@@ -64,13 +64,6 @@ export class Energies {
     }
 
     stageOutput(commandEncoder: GPUCommandEncoder) {
-        /*
-        commandEncoder.copyBufferToBuffer(
-            this.outBuffer, 0,
-            this.outStageBuffer, 0,
-            this.frameSize * Float32Array.BYTES_PER_ELEMENT,
-        );
-        */
         commandEncoder.copyBufferToBuffer(
             this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             this.outStageBuffer, 0,
@@ -91,25 +84,5 @@ export class Energies {
             this.inBuffer, this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             this.frameSize * Float32Array.BYTES_PER_ELEMENT,
         );
-
-        //const copyCommands = commandEncoder.finish();
-        //this.device.queue.submit([copyCommands]);
-    }
-
-    async updateCycle() {
-
-        // set prev cycle to be 2 cycles ago
-        this.device.queue.writeBuffer(this.inBuffer, this.frameSize * 2, this.oldCycle);
-        await this.outStageBuffer.mapAsync(GPUMapMode.READ);
-        this.oldCycle = this.outStageBuffer.getMappedRange();
-        this.outStageBuffer.unmap();
-        // set this cycle to be prev cycle
-        this.device.queue.writeBuffer(this.inBuffer, this.frameSize, this.oldCycle);
-
-        /*
-        let unit = new Float32Array(1);
-        unit.set([0.2], 0);
-        */
-        //this.device.queue.writeBuffer(this.tempBuffer, 0, unit);
     }
 }

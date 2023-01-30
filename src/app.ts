@@ -15,12 +15,6 @@ export class App {
         this.renderer = new Renderer(canvas);
         this.clickQueue = new ClickQueue();
         canvas.addEventListener('click', (event) => getClick(canvas, this.clickQueue, event));
-
-        /*
-        this.canvas.onclick = () => {
-            this.canvas.requestPointerLock();
-        }
-        */
     }
 
     async initialize() {

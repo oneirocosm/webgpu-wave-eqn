@@ -59,16 +59,6 @@ export class Renderer {
                         hasDynamicOffset: false,
                     },
                 },
-                /*
-                {
-                    binding: 1,
-                    visibility: GPUShaderStage.FRAGMENT,
-                    buffer: {
-                        type: "uniform",
-                        hasDynamicOffset: false,
-                    },
-                },
-                */
                 {
                     binding: 1,
                     visibility: GPUShaderStage.FRAGMENT,
@@ -107,7 +97,8 @@ export class Renderer {
     async createAssets() {
         this.backgroundMesh = new QuadMesh(this.device);
         this.backgroundMaterial = new Material();
-        await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg");
+        //await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg");
+        await this.backgroundMaterial.initialize(this.device, "dist/img/triangle.jpg");
         this.energies = new Energies(this.device, [this.canvas.width, this.canvas.height]);
     }
 
@@ -151,14 +142,6 @@ export class Renderer {
                         buffer: this.energies.inBuffer,
                     }
                 },
-                /*
-                {
-                    binding: 1,
-                    resource: {
-                        buffer: this.energies.clickBuffer,
-                    }
-                },
-                */
                 {
                     binding: 1,
                     resource: {
@@ -201,6 +184,5 @@ export class Renderer {
         this.energies.stageOutput(commandEncoder);
 
         this.device.queue.submit([commandEncoder.finish()]);
-        //await this.energies.updateCycle();
     }
 }

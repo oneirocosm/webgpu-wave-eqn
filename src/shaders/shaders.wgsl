@@ -74,7 +74,7 @@ fn is_wall(rgb_color: vec4<f32>) -> bool {
     let weights = vec4<f32>(0.299, 0.587, 0.114, 0.0);
     let shade_val: f32 = dot(rgb_color, weights);
     let cutoff_val: f32 = 0.5;
-    return shade_val < cutoff_val;
+    return shade_val < cutoff_val || rgb_color.a <= 0.01;
 }
 
 fn rgb2bw(rgb_color: vec4<f32>) -> vec4<f32>{
