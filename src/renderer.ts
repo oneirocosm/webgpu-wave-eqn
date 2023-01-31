@@ -98,6 +98,7 @@ export class Renderer {
         this.backgroundMesh = new QuadMesh(this.device);
         this.backgroundMaterial = new Material();
         //await this.backgroundMaterial.initialize(this.device, "dist/img/blank-square.jpg");
+        //await this.backgroundMaterial.initialize(this.device, "dist/img/st-paul.jpg");
         await this.backgroundMaterial.initialize(this.device, "dist/img/triangle.jpg");
         this.energies = new Energies(this.device, [this.canvas.width, this.canvas.height]);
     }

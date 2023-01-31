@@ -5,13 +5,13 @@ export class QuadMesh {
     constructor(device: GPUDevice) {
         const vertices: Float32Array = new Float32Array(
             [
-                -1.0, -1.0, 0.0, 0.0,
-                1.0, -1.0, 1.0, 0.0,
-                1.0, 1.0, 1.0, 1.0,
+                -1.0, -1.0, 0.0, 1.0,
+                1.0, -1.0, 1.0, 1.0,
+                1.0, 1.0, 1.0, 0.0,
 
-                -1.0, -1.0, 0.0, 0.0,
-                1.0, 1.0, 1.0, 1.0,
-                -1.0, 1.0, 0.0, 1.0,
+                -1.0, -1.0, 0.0, 1.0,
+                1.0, 1.0, 1.0, 0.0,
+                -1.0, 1.0, 0.0, 0.0,
             ]
         );
         const descriptor: GPUBufferDescriptor = {

@@ -55,7 +55,7 @@ export class Energies {
 
     updateClicks(readyForEntry: Array<[number, number]>) {
         let unit = new Float32Array(Float32Array.BYTES_PER_ELEMENT);
-        unit.set([4.0], 0);
+        unit.set([10.0], 0);
         readyForEntry.forEach((point) => {
             let index = point[1] * this.canvasSize[0] + point[0];
             console.log(`writing to index ${index} out of ${this.canvasSize}`);

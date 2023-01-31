@@ -10,7 +10,6 @@ struct VertexOutput {
 @group(1) @binding(0) var<storage, read> energies: array<f32>;
 @group(1) @binding(1) var<storage, read_write> outputs: array<f32>;
 @group(1) @binding(2) var<uniform> temp: f32;
-@group(1) @binding(3) var<storage, read_write> shader_only: array<f32>;
 
 
 @vertex
@@ -27,8 +26,6 @@ fn vs_main(
 fn fs_main(@location(0) uv: vec2<f32>,
            @builtin(position) pos: vec4<f32>) -> @location(0) vec4<f32> {
     let wall_val = textureSample(wall_texture, wall_sampler, uv);
-    let arr_ptr = &energies;
-    let chunk_size: u32 = arrayLength(arr_ptr) / u32(3);
 
     let wall_mask = create_wall_mask(wall_val);
 
@@ -42,7 +39,7 @@ fn fs_main(@location(0) uv: vec2<f32>,
      + 2.0 * energy_here - energy_old;
 
     let input_energy = get_energy(pos.xy, 0, 0, 0);
-    let new_energy = (fdbk_energy + input_energy) * wall_mask;
+    let new_energy = (fdbk_energy + input_energy) * wall_mask * 0.9999;
 
     let id = u32(pos.y) * 800u + u32(pos.x);
     outputs[id] = new_energy;
