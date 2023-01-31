@@ -8,7 +8,7 @@ export class Energies {
     canvasSize: [number, number];
     frameSize: number;
     oldCycle: ArrayBuffer;
-    tempBuffer: GPUBuffer;
+    countBuffer: GPUBuffer;
     emptyBuffer: GPUBuffer;
 
     constructor(device: GPUDevice, canvasSize: [number, number]) {
@@ -41,16 +41,16 @@ export class Energies {
             size: this.frameSize * Float32Array.BYTES_PER_ELEMENT,
             usage: GPUBufferUsage.COPY_DST | GPUBufferUsage.COPY_SRC,
         });
-        this.tempBuffer = device.createBuffer({
-            size: Float32Array.BYTES_PER_ELEMENT,
+        this.countBuffer = device.createBuffer({
+            size: Uint8Array.BYTES_PER_ELEMENT,
             usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
         });
 
         this.oldCycle = new ArrayBuffer(this.frameSize);
 
-        let unit = new Float32Array(1);
-        unit.set([0.9], 0);
-        this.device.queue.writeBuffer(this.tempBuffer, 0, unit);
+        //let unit = new Float32Array(1);
+        //unit.set([0.9], 0);
+        //this.device.queue.writeBuffer(this.tempBuffer, 0, unit);
     }
 
     updateClicks(readyForEntry: Array<[number, number]>) {

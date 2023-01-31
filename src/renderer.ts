@@ -152,7 +152,7 @@ export class Renderer {
                 {
                     binding: 2,
                     resource: {
-                        buffer: this.energies.tempBuffer,
+                        buffer: this.energies.countBuffer,
                     }
                 },
             ],
