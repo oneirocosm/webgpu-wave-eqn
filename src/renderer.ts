@@ -162,7 +162,7 @@ export class Renderer {
 
     render = (clickQueue: ClickQueue) => {
         let newClicks = clickQueue.getContents();
-        this.energies.updateClicks(newClicks);
+        this.energies.updateClicks(newClicks, this.device);
         const commandEncoder: GPUCommandEncoder = this.device.createCommandEncoder();
         const textureView: GPUTextureView = this.context.getCurrentTexture().createView();
 
@@ -184,6 +184,6 @@ export class Renderer {
         renderpass.end();
 
         this.device.queue.submit([commandEncoder.finish()]);
-        this.energies.clearClicks(newClicks);
+        this.energies.clearClicks(newClicks, this.device);
     }
 }
