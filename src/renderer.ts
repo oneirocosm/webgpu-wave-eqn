@@ -140,19 +140,19 @@ export class Renderer {
                 {
                     binding: 0,
                     resource: {
-                        buffer: this.energies.inBuffer,
+                        buffer: this.energies.inputBuffer,
                     }
                 },
                 {
                     binding: 1,
                     resource: {
-                        buffer: this.energies.outBuffer,
+                        buffer: this.energies.energyBuffer,
                     }
                 },
                 {
                     binding: 2,
                     resource: {
-                        buffer: this.energies.countBuffer,
+                        buffer: this.energies.uniformBuffer,
                     }
                 },
             ],
@@ -160,7 +160,7 @@ export class Renderer {
 
     }
 
-    render = async (clickQueue: ClickQueue) => {
+    render = (clickQueue: ClickQueue) => {
         let newClicks = clickQueue.getContents();
         this.energies.updateClicks(newClicks);
         const commandEncoder: GPUCommandEncoder = this.device.createCommandEncoder();
@@ -182,8 +182,8 @@ export class Renderer {
         renderpass.setBindGroup(1, this.bindGroup);
         renderpass.draw(6);
         renderpass.end();
-        this.energies.stageOutput(commandEncoder);
 
         this.device.queue.submit([commandEncoder.finish()]);
+        this.energies.clearClicks(newClicks);
     }
 }
