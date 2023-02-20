@@ -12,8 +12,8 @@ While there are still many limitations in the application, it can create various
 
 If you'd like to see a very high-level explanation, here is a presentation I gave toward the end of my batch at the [Recurse Center](https://www.recurse.com/)!  If you want an uncompressed version, you can also find that in this repository.
 
-https://user-images.githubusercontent.com/107814465/220031546-99cca972-408d-4710-b886-91c82a76fc7f.mp4
-(note: about 8:40 in, I erroneously say "j times the height."  I should have just said "j" as the equation on the screen dones)
+https://user-images.githubusercontent.com/107814465/220040152-fa7a79b4-a22e-4dcb-8164-601c94eca4ce.mp4
+(note: about 8:50 in, I erroneously say "j times the height."  I should have just said "j" as the equation on the screen does)
 
 
 ## How to Run
