@@ -3,13 +3,17 @@ This is a simple 2d wave equation simulator.  When the user clicks on the window
 Since this program was created using WebGPU (which is still unstable), it is experimental and only works on the Chrome Canary browser with WebGPU enabled.
 
 ## Big Picture Idea
+![demonstration](https://user-images.githubusercontent.com/107814465/220036078-e6cf061a-0a8d-4146-88cf-7c49e4ef1712.gif)
+
 As stated above, this is a 2d wave equation simulator that allows for
 - Arbitrary walls by importing textures
 - Arbitrary energies in the form of user-submitted clicks
 While there are still many limitations in the application, it can create various simulations for arbitrary background walls and clicks.  To do this, it uses the WebGPU library to send relevant data to the GPU where the intensive calculations are being performed.
 
-If you'd like to see a very high-level explanation, here is a presentation I gave toward the end of my batch at the [Recurse Center](https://www.recurse.com/)!
-TODO!  (upload compressed version for README)
+If you'd like to see a very high-level explanation, here is a presentation I gave toward the end of my batch at the [Recurse Center](https://www.recurse.com/)!  If you want an uncompressed version, you can also find that in this repository.
+
+https://user-images.githubusercontent.com/107814465/220031546-99cca972-408d-4710-b886-91c82a76fc7f.mp4
+(note: about 8:40 in, I erroneously say "j times the height."  I should have just said "j" as the equation on the screen dones)
 
 
 ## How to Run
@@ -26,3 +30,4 @@ The basic functionality of the app is there, but it needs some improvements over
 [] The ability to upload a wall texture from the page
 [] Click and Hold for bigger wave
 [] Click and drag for moving source
+[] Configurable options such as canvas size and wave speed
