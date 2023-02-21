@@ -1,10 +1,13 @@
-# webgpu-wave-eqn
+# WebGPU Wave Equation
 This is a simple 2d wave equation simulator.  When the user clicks on the window, energy will be introduced to the system which will bounce off the walls that were loaded in via a texture.
 
 Since this program was created using WebGPU (which is still unstable), it is experimental and only works on the [Chrome Canary](https://www.google.com/chrome/canary/) browser with [WebGPU enabled](https://developer.chrome.com/en/docs/web-platform/webgpu/#enabling-via-aboutflags).
 
 ## Big Picture Idea
+$\quad \quad \Huge \quad \quad \frac{1}{v^2}\frac{\partial^2u}{{\partial t}^2} - \nabla^2u = 0$
+
 ![demonstration](https://user-images.githubusercontent.com/107814465/220036078-e6cf061a-0a8d-4146-88cf-7c49e4ef1712.gif)
+  
 
 As stated above, this is a 2d wave equation simulator that allows for
 - Arbitrary walls by importing textures
@@ -17,7 +20,7 @@ $$\begin{equation} u(x,y,t + \Delta t) = \frac{v^2(\Delta t)^2}{(\Delta s)^2} \B
 For boundary conditions, any point that is clicked has the energy increased, and any point that is a wall always has zero energy.  And this repeats each cycle.
 
 ## Big Picture Presentation
-If you'd like to see a more visual explanation of the above, here is a presentation I gave toward the end of my batch at the [Recurse Center](https://www.recurse.com/)!  If you want an uncompressed version, you can also find that in this repository at [/WavePresentation.mp4](/WavePresentation.mp4).
+If you'd like to see a more visual explanation of the above, here is a presentation I gave toward the end of my batch at the [Recurse Center](https://www.recurse.com/)!  If you want an uncompressed version, you can also download that version [here](/WavePresentation.mp4)!
 
 
 
@@ -26,6 +29,7 @@ https://user-images.githubusercontent.com/107814465/220040152-fa7a79b4-a22e-4dcb
 
 (note: about 8:50 in, I erroneously say "j times the height."  I should have just said "j" as the equation on the screen does)
 
+If you would like more information about how I created this presentation, the code I used to create the interactive slides can be found [here](https://github.com/oneirocosm/wave-presentation)!
 
 ## How to Run
 Using pnpm run dev, you can serve this simulation in your webbrowser at http://localhost:8080.  That being said, there are a few other important details to keep in mind:
